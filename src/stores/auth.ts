@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { ref, type Ref } from "vue";
 import type IUser from "@/interfaces/IUser";
-import { useRouter } from "vue-router";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -10,7 +9,6 @@ axios.defaults.baseURL = 'http://localhost:8000';
 export const useAuth = defineStore('auth', () => {
   const user: Ref<IUser | null> = ref(null);
   const token = ref(null);
-  const router = useRouter();
 
   async function login(email: string, password: string) {
     await axios.post('/api/login', {

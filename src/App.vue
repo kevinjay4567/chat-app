@@ -11,8 +11,8 @@ const store = useAuth();
       <div>
         <nav >
           <div class="flex justify-end gap-6 mr-5 pt-5" v-if="!store.user">
-            <RouterLink to="/register" class="text-white">Register</RouterLink>
-            <RouterLink to="/login" class="text-white">Login</RouterLink>
+            <RouterLink to="/register">Register</RouterLink>
+            <RouterLink to="/login">Login</RouterLink>
           </div>
 
         </nav>
