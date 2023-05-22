@@ -1,35 +1,54 @@
 import { defineStore } from "pinia";
-import axios from "axios";
 import { ref, type Ref } from "vue";
-import Pusher from 'pusher-js'
-
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
+import { pusher } from "@/utils/pusher";
+import axios from '@/utils/axios'
+import type IMessage from "@/interfaces/IMessage";
 
 export const useMessage = defineStore('message', () => {
-  const messages = ref(null);
-  const newMsg = ref([]);
-  const pusher = ref(new Pusher('971a03571bef0feffa2c', {
-    cluster: 'us2'
-  }));
-  const channel = ref(pusher.value.subscribe('send-message'));
+  const messages = ref([]);
+  const newMsg: Ref<Array<IMessage>> = ref([]);
 
-  async function getMessages() {
-    await axios.get('/api/messages')
-      .then(res => {
-        messages.value = res.data;
-      })
-  }
-
-  async function msgBroadcast() {
-    await axios.get('/api/messages')
-    .then(res => {
-      messages.value = res.data;
-    })
-    channel.value.bind('message-event', function (data: any) {
-      newMsg.value.push(data);
+  async function getMessages(id: string | string[], token: string) {
+    await axios.get('/sanctum/csrf-cookie').then(() => {
+      axios.post('/api/messages', {
+        friend: Number(id),
+      },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(res => {
+          messages.value = res.data;
+        })
     })
   }
 
-  return { getMessages, messages, msgBroadcast, newMsg }
+  async function sendMessage(msg: string, token: string, friend: string | string[]) {
+    if (pusher) {
+      pusher.unsubscribe('send-message');
+    }
+
+    await axios.get('/sanctum/csrf-cookie').then(() => {
+      axios.post('/api/send', {
+        body: msg,
+        user_receive: Number(friend)
+      },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+    })
+    let channel = pusher.subscribe('send-message');
+
+    channel.bind('message-event', function (data: IMessage) {
+      messages.value.push(data);
+      console.log(data)
+    })
+
+  }
+
+  return { getMessages, messages, newMsg, sendMessage }
 })

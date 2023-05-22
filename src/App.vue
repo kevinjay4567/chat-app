@@ -9,7 +9,7 @@ const store = useAuth();
   <div class="h-screen bg-[#1a1a1a]">
     <header>
       <div>
-        <nav >
+        <nav>
           <div class="flex justify-end gap-6 mr-5 pt-5" v-if="!store.user">
             <RouterLink to="/register">Register</RouterLink>
             <RouterLink to="/login">Login</RouterLink>
