@@ -1,15 +1,11 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from "@/utils/axios";
 import { ref, type Ref } from "vue";
-import type { T } from "vitest/dist/types-ad1c3f45.js";
-
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
 
 export const useUser = defineStore('user', () => {
-  const user = ref([]);
+  const user: Ref<any> = ref([]);
 
-  async function getUserById(messages: Array<Object>) {
+  async function getUserById(messages: Array<any>) {
     messages.forEach(async message => {
      await axios.get(`/api/users/${message.user_receive}`) 
      .then(res => {

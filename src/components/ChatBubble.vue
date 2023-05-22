@@ -1,0 +1,15 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+
+const props = defineProps<{
+  message: String,
+  bool: boolean
+}>()
+
+const style = computed(() => props.bool ? 'self-end' : 'self-start');
+</script>
+<template>
+  <div :class="`bg-green-700 px-2 text-center rounded-lg ${style}`">
+    <p>{{ props.message }}</p>
+  </div>
+</template>

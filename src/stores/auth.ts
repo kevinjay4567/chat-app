@@ -1,14 +1,11 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import axios from "@/utils/axios";
 import { ref, type Ref } from "vue";
 import type IUser from "@/interfaces/IUser";
 
-axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8000';
-
 export const useAuth = defineStore('auth', () => {
   const user: Ref<IUser | null> = ref(null);
-  const token = ref(null);
+  const token = ref('');
 
   async function login(email: string, password: string) {
     await axios.post('/api/login', {
@@ -33,7 +30,7 @@ export const useAuth = defineStore('auth', () => {
     })
 
     localStorage.clear();
-    token.value = null;
+    token.value = '';
     user.value = null;
   }
 

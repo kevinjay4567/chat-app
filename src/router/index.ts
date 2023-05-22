@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ChatView from '../views/ChatView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import LoginView from '../views/LoginView.vue'
+import FriendsView from '../views/FriendsView.vue'
 import { useAuth } from '@/stores/auth'
 
 const router = createRouter({
@@ -28,12 +29,12 @@ const router = createRouter({
       }
     },
     {
-      path: '/chat',
-      name: 'chat',
+      path: '/chat/:id',
+      name: 'privateChat',
       component: ChatView,
       meta: {
         requireAuth: true
-      }
+      },
     },
     {
       path: '/login',
@@ -41,6 +42,14 @@ const router = createRouter({
       component: LoginView,
       meta: {
         requireAuth: false
+      }
+    },
+    {
+      path: '/friends',
+      name: 'friends',
+      component: FriendsView,
+      meta: {
+        requireAuth: true
       }
     }
   ]
