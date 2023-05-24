@@ -4,10 +4,11 @@ import { useMessage } from '@/stores/message';
 import { ref, type Ref, onMounted, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
 import ChatBubble from '@/components/ChatBubble.vue';
+import type IMessage from '@/interfaces/IMessage';
 
 const store = useAuth();
 const msgStore = useMessage();
-const messages = ref();
+const messages: Ref<Array<IMessage>> = ref([]);
 const msg = ref();
 const isLoading = ref(false);
 const route = useRoute();
@@ -38,12 +39,12 @@ watchEffect(async () => {
       </ul>
     </div>
 
-    <div class="flex gap-3 pt-5">
-      <input type="text" placeholder="send message..."
-        class="outline-none border-b bg-transparent mt-5 w-[80%] max-w-[700px]" v-model="msg" />
+    <div class="flex gap-3 pt-5 w-full justify-center">
+      <textarea type="text" placeholder="send message..."
+        class="outline-none border border-gray-500 bg-transparent mt-5 w-[70%] max-w-[600px] resize-none rounded-lg" v-model="msg" />
 
-      <button @click="sendMsg" class="bg-orange-600 px-5 rounded-lg">
-        <span class="text-lg">Send</span>
+      <button @click="sendMsg" class="bg-orange-600 rounded-lg self-center mt-4 p-3 text-center">
+        <span class="text-sm">Send</span>
       </button>
     </div>
 
