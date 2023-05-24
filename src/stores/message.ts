@@ -5,8 +5,7 @@ import axios from '@/utils/axios'
 import type IMessage from "@/interfaces/IMessage";
 
 export const useMessage = defineStore('message', () => {
-  const messages = ref([]);
-  const newMsg: Ref<Array<IMessage>> = ref([]);
+  const messages: Ref<Array<IMessage>> = ref([]);
 
   async function getMessages(id: string | string[], token: string) {
     await axios.get('/sanctum/csrf-cookie').then(() => {
@@ -45,10 +44,9 @@ export const useMessage = defineStore('message', () => {
 
     channel.bind('message-event', function (data: IMessage) {
       messages.value.push(data);
-      console.log(data)
     })
 
   }
 
-  return { getMessages, messages, newMsg, sendMessage }
+  return { getMessages, messages, sendMessage }
 })
