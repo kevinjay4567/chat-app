@@ -17,6 +17,17 @@ export const useAuth = defineStore('auth', () => {
     })
   }
 
+  async function register(name: string, email: string, password: string) {
+    await axios.post('/api/register', {
+      name: name,
+      email: email,
+      password: password
+    }).then(res => {
+      token.value = res.data.token;
+      user.value = res.data.user;
+    })
+  }
+
   async function logout() {
     await axios.get('/sanctum/csrf-cookie').then(() => {
       axios.post('/api/logout', {}, {
@@ -34,7 +45,7 @@ export const useAuth = defineStore('auth', () => {
     user.value = null;
   }
 
-  return { user, token, login, logout }
+  return { user, token, login, logout,  register }
 
 },
   {
