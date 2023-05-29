@@ -11,6 +11,7 @@ export const useAuth = defineStore(
     const errorMsg = ref('')
 
     async function login(email: string, password: string) {
+      errorMsg.value = ''
       await axios
         .post('/api/login', {
           email: email,
@@ -35,6 +36,9 @@ export const useAuth = defineStore(
         .then((res) => {
           token.value = res.data.data.token
           user.value = res.data.data.user
+        })
+        .catch(function (error) {
+          errorMsg.value = error.response.data.message
         })
     }
 
