@@ -17,11 +17,11 @@ export const useAuth = defineStore(
           password: password
         })
         .then((res) => {
-          token.value = res.data.token
-          user.value = res.data.user
+          token.value = res.data.data.token
+          user.value = res.data.data.user
         })
         .catch(function (error) {
-          errorMsg.value = error.response.data.error
+          errorMsg.value = error.response.data.message
         })
     }
 
@@ -33,8 +33,8 @@ export const useAuth = defineStore(
           password: password
         })
         .then((res) => {
-          token.value = res.data.token
-          user.value = res.data.user
+          token.value = res.data.data.token
+          user.value = res.data.data.user
         })
     }
 
