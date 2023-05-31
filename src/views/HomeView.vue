@@ -1,15 +1,14 @@
 <script setup lang="ts">
-import { useAuth } from '@/stores/auth';
-import { useRouter } from 'vue-router';
+import { useAuth } from '@/stores/auth'
+import { useRouter } from 'vue-router'
 
-const store = useAuth();
-const router = useRouter();
+const store = useAuth()
+const router = useRouter()
 
 async function logout() {
-  await store.logout();
+  await store.logout()
   router.push('/login')
 }
-
 </script>
 
 <template>
