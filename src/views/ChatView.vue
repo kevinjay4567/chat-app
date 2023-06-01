@@ -35,7 +35,7 @@ watchEffect(async () => {
     >
       <ul class="flex flex-col gap-2">
         <li v-for="message in messages" class="flex flex-col p-1" :key="message.id">
-          <ChatBubble :message="message.body" :bool="message.receive.id === store.user?.id" />
+          <ChatBubble :message="message.body" :bool="message.user_receive.id === store.user?.id" />
         </li>
       </ul>
     </div>
